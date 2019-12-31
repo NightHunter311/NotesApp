@@ -31,6 +31,12 @@
         android:text="Add Note"
         android:id="@+id/button"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="temp2"
+        android:id="@+id/temp2"
+        />
 
 
 </LinearLayout>

@@ -1,8 +1,15 @@
 package com.akiad.notes;
+//101 - send notes(individual note to new activity
+//102 - code for saving and retrieving data from shared pref
+//103 - code to send new user input for Notes
+//104 - code to send position to Notes View
+//105 - code to send position to Main activity
+
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,28 +30,36 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     View.OnClickListener mOnClickListener;
     ArrayList notes;
     Context context;
+    Intent intent;
 
     public CustomAdapter(Context context, ArrayList notes) {
         this.context = context;
         this.notes = notes;
     }
 
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
-        return vh;
+        MyViewHolder vh1 = vh;
+        return vh1;
+
 
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
+        if(notes.get(position)==null){
+
+        }
         holder.note.setText(notes.get(position).toString());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), NotesView.class);
                 intent.putExtra("101", notes.get(position).toString());
+                intent.putExtra("104", position);
                 view.getContext().startActivity(intent);
             }
         });
@@ -55,9 +70,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                         .setAction("Delete", mOnClickListener = new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(v.getContext(), NotesView.class);
-                                intent.putExtra("101", notes.get(position).toString());
                                 notes.remove(notes.get(position));
+                                saveArrayList(notes,"102");
                                 notifyDataSetChanged();
                                 Toast.makeText(v.getContext(), "Deleted", Toast.LENGTH_SHORT).show();
                             }
@@ -67,6 +81,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
             }
         });
+
+
 
     }
 
@@ -86,16 +102,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             note = (TextView) itemView.findViewById(R.id.note);
         }
     }
-}
-  /*  public void saveArrayList(ArrayList<String> list, String key){
+    public void saveArrayList(ArrayList<String> list, String key){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(list);
         editor.putString(key, json);
-        editor.apply();     // This line is IMPORTANT !!!
-    }
+        editor.apply();
 
+    }
     public ArrayList<String> getArrayList(String key){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
@@ -104,4 +119,3 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return gson.fromJson(json, type);
     }
 }
-*/

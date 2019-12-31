@@ -1,39 +1,45 @@
 package com.akiad.notes;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import static java.lang.System.exit;
 
 public class MainActivity extends Activity {
 
     RecyclerView recyclerView;
     ArrayList notes = new ArrayList();
     ArrayList fakeEmpty = new ArrayList();
-    Button button1;
     Integer n = 1;
+    String temp = "";
+    Integer position = 0;
+    String tempstr = "test";
+    TextView temp2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         notes = getArrayList("102");
         if (notes == null){
             notes = fakeEmpty;
@@ -43,6 +49,8 @@ public class MainActivity extends Activity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         final CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, notes);
+        Boolean isSelected = prefs.getBoolean("isSelected",false);
+        Intent intent = this.getIntent();
         Button button1 = findViewById(R.id.button);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,9 +59,21 @@ public class MainActivity extends Activity {
                 n++;
                 customAdapter.notifyDataSetChanged();
                 saveArrayList(notes,"102");
+                recyclerView.setAdapter(customAdapter);
             }
         });
+        if(isSelected){
+            position = intent.getIntExtra("105",0);
+            temp = intent.getStringExtra("103");
+            notes.set(position,temp);
+            saveArrayList(notes,"102");
+            customAdapter.notifyDataSetChanged();
+            recyclerView.setAdapter(customAdapter);
+            prefs.edit().putBoolean("isSelected",false).apply();
+
+        }
         recyclerView.setAdapter(customAdapter);
+
 
 
     }
@@ -74,5 +94,26 @@ public class MainActivity extends Activity {
         Type type = new TypeToken<ArrayList<String>>() {}.getType();
         return gson.fromJson(json, type);
     }
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            this.finishAffinity();
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
 
 }
