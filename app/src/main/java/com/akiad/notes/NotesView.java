@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -18,10 +21,9 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class NotesView extends Activity {
+public class NotesView extends AppCompatActivity {
     EditText NotesEditText;
     Button SaveBut;
-    TextView temp;
     Integer position;
 
     @Override
@@ -31,10 +33,9 @@ public class NotesView extends Activity {
         NotesEditText = findViewById(R.id.NotesEditText);
         final Bundle extras = getIntent().getExtras();
         String text1 = extras.getString("101") ;
-        temp = findViewById(R.id.temp);
         position = extras.getInt("104");
-        temp.setText(position.toString());
         NotesEditText.setText(text1);
+
         SaveBut = findViewById(R.id.SaveBut);
         SaveBut.setOnClickListener(new View.OnClickListener() {
             @Override

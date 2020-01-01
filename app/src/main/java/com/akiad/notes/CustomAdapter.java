@@ -4,6 +4,8 @@ package com.akiad.notes;
 //103 - code to send new user input for Notes
 //104 - code to send position to Notes View
 //105 - code to send position to Main activity
+//
+//107 - code for shared prefs n
 
 
 import android.content.Context;

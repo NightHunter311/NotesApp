@@ -1,6 +1,8 @@
 package com.akiad.notes;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,23 +26,20 @@ import java.util.ArrayList;
 
 import static java.lang.System.exit;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList notes = new ArrayList();
     ArrayList fakeEmpty = new ArrayList();
-    Integer n = 1;
     String temp = "";
     Integer position = 0;
     String tempstr = "test";
-    TextView temp2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         notes = getArrayList("102");
         if (notes == null){
             notes = fakeEmpty;
@@ -51,12 +51,11 @@ public class MainActivity extends Activity {
         final CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, notes);
         Boolean isSelected = prefs.getBoolean("isSelected",false);
         Intent intent = this.getIntent();
-        Button button1 = findViewById(R.id.button);
-        button1.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notes.add("note " + n.toString());
-                n++;
+                notes.add("new note");
                 customAdapter.notifyDataSetChanged();
                 saveArrayList(notes,"102");
                 recyclerView.setAdapter(customAdapter);
