@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="150dp"
+    android:background="#FFFFFF">
 
 
     <TextView
         android:id="@+id/note"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:text="Note" />
+        android:text="Note"
+        android:elevation="4dp"
+        android:background="?android:selectableItemBackground"
+        android:paddingTop="10dp"
+
+
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#D3D3D3"/>
 
 
 </RelativeLayout>
