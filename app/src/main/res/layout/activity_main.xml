@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".MainActivity"
-    android:background=" #D3D3D3">
+    android:background=" #e5e5e5">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:layout_marginTop="10dp"
-        android:background=" #D3D3D3"
+        android:background=" #e5e5e5"
         />
 
 
